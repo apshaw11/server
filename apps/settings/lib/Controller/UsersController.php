@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -30,7 +32,6 @@
 
 // FIXME: disabled for now to be able to inject IGroupManager and also use
 // getSubAdmin()
-//declare(strict_types=1);
 
 namespace OCA\Settings\Controller;
 
@@ -140,7 +141,7 @@ class UsersController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function usersListByGroup() {
+	public function usersListByGroup(): TemplateResponse {
 		return $this->usersList();
 	}
 
@@ -152,7 +153,7 @@ class UsersController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function usersList() {
+	public function usersList(): TemplateResponse {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
 
@@ -309,7 +310,7 @@ class UsersController extends Controller {
 	 *
 	 * @return bool
 	 */
-	protected function canAdminChangeUserPasswords() {
+	protected function canAdminChangeUserPasswords(): bool {
 		$isEncryptionEnabled = $this->encryptionManager->isEnabled();
 		try {
 			$noUserSpecificEncryptionKeys = !$this->encryptionManager->getEncryptionModule()->needDetailedAccessList();
@@ -344,19 +345,19 @@ class UsersController extends Controller {
 	 * @param string $twitterScope
 	 * @return DataResponse
 	 */
-	public function setUserSettings($avatarScope,
-									$displayname,
-									$displaynameScope,
-									$phone,
-									$phoneScope,
-									$email,
-									$emailScope,
-									$website,
-									$websiteScope,
-									$address,
-									$addressScope,
-									$twitter,
-									$twitterScope
+	public function setUserSettings(string $avatarScope,
+									string $displayname,
+									string $displaynameScope,
+									string $phone,
+									string $phoneScope,
+									string $email,
+									string $emailScope,
+									string $website,
+									string $websiteScope,
+									string $address,
+									string $addressScope,
+									string $twitter,
+									string $twitterScope
 	) {
 		$email = strtolower($email);
 		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
@@ -423,7 +424,7 @@ class UsersController extends Controller {
 	 * @param array $data
 	 * @throws ForbiddenException
 	 */
-	protected function saveUserSettings(IUser $user, array $data) {
+	protected function saveUserSettings(IUser $user, array $data): void {
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
 		$oldDisplayName = $user->getDisplayName();
